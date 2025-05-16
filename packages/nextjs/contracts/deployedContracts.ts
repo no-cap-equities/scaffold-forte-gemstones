@@ -6,151 +6,6 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 
 const deployedContracts = {
   31337: {
-    YourContract: {
-      address: "0x54389ab48730e453aa1b7e6d315337dc9a768222",
-      abi: [
-        {
-          type: "constructor",
-          inputs: [
-            {
-              name: "_owner",
-              type: "address",
-              internalType: "address",
-            },
-          ],
-          stateMutability: "nonpayable",
-        },
-        {
-          type: "receive",
-          stateMutability: "payable",
-        },
-        {
-          type: "function",
-          name: "greeting",
-          inputs: [],
-          outputs: [
-            {
-              name: "",
-              type: "string",
-              internalType: "string",
-            },
-          ],
-          stateMutability: "view",
-        },
-        {
-          type: "function",
-          name: "owner",
-          inputs: [],
-          outputs: [
-            {
-              name: "",
-              type: "address",
-              internalType: "address",
-            },
-          ],
-          stateMutability: "view",
-        },
-        {
-          type: "function",
-          name: "premium",
-          inputs: [],
-          outputs: [
-            {
-              name: "",
-              type: "bool",
-              internalType: "bool",
-            },
-          ],
-          stateMutability: "view",
-        },
-        {
-          type: "function",
-          name: "setGreeting",
-          inputs: [
-            {
-              name: "_newGreeting",
-              type: "string",
-              internalType: "string",
-            },
-          ],
-          outputs: [],
-          stateMutability: "payable",
-        },
-        {
-          type: "function",
-          name: "totalCounter",
-          inputs: [],
-          outputs: [
-            {
-              name: "",
-              type: "uint256",
-              internalType: "uint256",
-            },
-          ],
-          stateMutability: "view",
-        },
-        {
-          type: "function",
-          name: "userGreetingCounter",
-          inputs: [
-            {
-              name: "",
-              type: "address",
-              internalType: "address",
-            },
-          ],
-          outputs: [
-            {
-              name: "",
-              type: "uint256",
-              internalType: "uint256",
-            },
-          ],
-          stateMutability: "view",
-        },
-        {
-          type: "function",
-          name: "withdraw",
-          inputs: [],
-          outputs: [],
-          stateMutability: "nonpayable",
-        },
-        {
-          type: "event",
-          name: "GreetingChange",
-          inputs: [
-            {
-              name: "greetingSetter",
-              type: "address",
-              indexed: true,
-              internalType: "address",
-            },
-            {
-              name: "newGreeting",
-              type: "string",
-              indexed: false,
-              internalType: "string",
-            },
-            {
-              name: "premium",
-              type: "bool",
-              indexed: false,
-              internalType: "bool",
-            },
-            {
-              name: "value",
-              type: "uint256",
-              indexed: false,
-              internalType: "uint256",
-            },
-          ],
-          anonymous: false,
-        },
-      ],
-      inheritedFunctions: {},
-      deploymentFile: "run-1747409684.json",
-      deploymentScript: "Deploy.s.sol",
-    },
     GemNFT: {
       address: "0x6bcb3f78d4936c4fd8973d520ff3debad9ecc374",
       abi: [
@@ -1186,7 +1041,7 @@ const deployedContracts = {
   },
   84532: {
     GemNFT: {
-      address: "0x415b6b8eae5d54abe0ec11a7dd7e74d13a259445",
+      address: "0xf451493ef830bd7520106f4441fa6df37a5a9317",
       abi: [
         {
           type: "constructor",
@@ -2214,8 +2069,8 @@ const deployedContracts = {
         },
       ],
       inheritedFunctions: {},
-      deploymentFile: "run-1747412015.json",
-      deploymentScript: "DeployBaseSepoliaGems.s.sol",
+      deploymentFile: "run-1747412286.json",
+      deploymentScript: "DeployBaseSepoliaGemsWithCheck.s.sol",
     },
   },
 } as const;
