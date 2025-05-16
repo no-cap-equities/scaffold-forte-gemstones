@@ -39,7 +39,29 @@ Bahamut	0x9A44E9a43642398AfbC4953f03Ee62E0eA052A48
 Local Anvil Chain	0x0165878A594ca255338adfa4d48449f69242Eb8F
 ```
 
-  
+# VS Code `tasks.json` Helper
+
+This project includes VS Code tasks to streamline development workflow:
+
+Will launch a split terminal to run all the required commands to get local development environment running.
+
+- **Main Build Workflow 🏗️** - The complete development workflow that:
+  1. Runs a local Anvil chain
+  2. Waits for the chain to start
+  3. Deploys contracts
+  4. Starts the frontend
+
+- **Run Chain** - Runs a local Anvil chain (`yarn chain`)
+- **Deploy Contracts** - Deploys contracts (`yarn deploy`)
+- **Frontend UI** - Starts the Next.js frontend (`yarn start`)
+- **Frontend (Re)Deploy** - Redeploys contracts and restarts the frontend
+
+To use these tasks in VS Code:
+1. Open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`)
+2. Type "Tasks: Run Task"
+3. Select the desired task
+> **Note:** Use `Ctrl+Shift+B` to run the default build task, to do all the steps above.
+
 ---
 # Special Thanks
 <ul>
