@@ -3516,6 +3516,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@openzeppelin/contracts@npm:4.9.6":
+  version: 4.9.6
+  resolution: "@openzeppelin/contracts@npm:4.9.6"
+  checksum: 274b6e968268294f12d5ca4f0278f6e6357792c8bb4d76664f83dbdc325f780541538a127e6a6e97e4f018088b42f65952014dec9c745c0fa25081f43ef9c4bf
+  languageName: node
+  linkType: hard
+
 "@paulmillr/qr@npm:^0.2.1":
   version: 0.2.1
   resolution: "@paulmillr/qr@npm:0.2.1"
@@ -4033,7 +4040,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@se-2/foundry@workspace:packages/foundry"
   dependencies:
-    "@thrackle-io/forte-rules-engine-sdk": ^0.0.3
+    "@thrackle-io/forte-rules-engine": ^0.0.1-rc.0
+    "@thrackle-io/forte-rules-engine-sdk": 0.0.3
+    "@types/node": ^22.15.18
     dotenv: ~16.3.1
     envfile: ~6.18.0
     ethers: ~5.7.1
@@ -4041,6 +4050,8 @@ __metadata:
     qrcode: ~1.5.3
     shx: ^0.3.4
     toml: ~3.0.0
+    ts-node: ^10.9.2
+    typescript: ^5.8.3
   languageName: unknown
   linkType: soft
 
@@ -5133,7 +5144,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@thrackle-io/forte-rules-engine-sdk@npm:^0.0.3":
+"@thrackle-io/forte-rules-engine-sdk@npm:0.0.3":
   version: 0.0.3
   resolution: "@thrackle-io/forte-rules-engine-sdk@npm:0.0.3"
   dependencies:
@@ -5143,6 +5154,15 @@ __metadata:
     diff: ^7.0.0
     vitest: ^3.1.2
   checksum: 01618704e571f78dcf45596a07d58ad880d3f1b5baf97070116500c2672278ee9c6eb82eeae354ef19ad6dc400e96bf42447173b7251056cc05b18b4f20c45a6
+  languageName: node
+  linkType: hard
+
+"@thrackle-io/forte-rules-engine@npm:^0.0.1-rc.0":
+  version: 0.0.1-rc.0
+  resolution: "@thrackle-io/forte-rules-engine@npm:0.0.1-rc.0"
+  dependencies:
+    "@openzeppelin/contracts": 4.9.6
+  checksum: ce958c99f58687d7a700db5242b5419d2fa4441db6ff33ebade8ecd6a973c613721b777bddffd5a95dde14a081ae7ef7cfa6994cca5b1fc9457d3126ea35be46
   languageName: node
   linkType: hard
 
@@ -5308,7 +5328,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:>=13.7.0":
+"@types/node@npm:*, @types/node@npm:>=13.7.0, @types/node@npm:^22.15.18":
   version: 22.15.18
   resolution: "@types/node@npm:22.15.18"
   dependencies:
@@ -15817,6 +15837,44 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ts-node@npm:^10.9.2":
+  version: 10.9.2
+  resolution: "ts-node@npm:10.9.2"
+  dependencies:
+    "@cspotcode/source-map-support": ^0.8.0
+    "@tsconfig/node10": ^1.0.7
+    "@tsconfig/node12": ^1.0.7
+    "@tsconfig/node14": ^1.0.0
+    "@tsconfig/node16": ^1.0.2
+    acorn: ^8.4.1
+    acorn-walk: ^8.1.1
+    arg: ^4.1.0
+    create-require: ^1.1.0
+    diff: ^4.0.1
+    make-error: ^1.1.1
+    v8-compile-cache-lib: ^3.0.1
+    yn: 3.1.1
+  peerDependencies:
+    "@swc/core": ">=1.2.50"
+    "@swc/wasm": ">=1.2.50"
+    "@types/node": "*"
+    typescript: ">=2.7"
+  peerDependenciesMeta:
+    "@swc/core":
+      optional: true
+    "@swc/wasm":
+      optional: true
+  bin:
+    ts-node: dist/bin.js
+    ts-node-cwd: dist/bin-cwd.js
+    ts-node-esm: dist/bin-esm.js
+    ts-node-script: dist/bin-script.js
+    ts-node-transpile-only: dist/bin-transpile.js
+    ts-script: dist/bin-script-deprecated.js
+  checksum: fde256c9073969e234526e2cfead42591b9a2aec5222bac154b0de2fa9e4ceb30efcd717ee8bc785a56f3a119bdd5aa27b333d9dbec94ed254bd26f8944c67ac
+  languageName: node
+  linkType: hard
+
 "ts-toolbelt@npm:^6.15.5":
   version: 6.15.5
   resolution: "ts-toolbelt@npm:6.15.5"
@@ -15961,7 +16019,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:~5.8.2":
+"typescript@npm:^5.8.3, typescript@npm:~5.8.2":
   version: 5.8.3
   resolution: "typescript@npm:5.8.3"
   bin:
@@ -15981,7 +16039,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@~5.8.2#~builtin<compat/typescript>":
+"typescript@patch:typescript@^5.8.3#~builtin<compat/typescript>, typescript@patch:typescript@~5.8.2#~builtin<compat/typescript>":
   version: 5.8.3
   resolution: "typescript@patch:typescript@npm%3A5.8.3#~builtin<compat/typescript>::version=5.8.3&hash=a1c5e5"
   bin:

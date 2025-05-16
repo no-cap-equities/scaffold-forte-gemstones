@@ -34,11 +34,13 @@ yarn deploy
 # Forte Rules Engine
 
 Deployed contract addresses:
-```
-Base Sepolia	0x4E448907B4B8d5949D4A6C67f34419dBb29690bD
-Bahamut	0x9A44E9a43642398AfbC4953f03Ee62E0eA052A48
-Local Anvil Chain	0x0165878A594ca255338adfa4d48449f69242Eb8F
-```
+
+| Network | Address |
+| ------- | ------- |
+| Base Sepolia | 0x4E448907B4B8d5949D4A6C67f34419dBb29690bD |
+| Bahamut | 0x9A44E9a43642398AfbC4953f03Ee62E0eA052A48 |
+| Local Anvil Chain | ~0x0165878A594ca255338adfa4d48449f69242Eb8F~ <br/> 0x4E448907B4B8d5949D4A6C67f34419dBb29690bD |
+
 
 ## Important Notes
 

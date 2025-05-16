@@ -4,7 +4,7 @@ import Link from "next/link";
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
 import { BugAntIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { Address } from "~~/components/scaffold-eth";
+import { Address, AddAnvilChainButton } from "~~/components/scaffold-eth";
 
 const Home: NextPage = () => {
   const { address: connectedAddress } = useAccount();
@@ -22,7 +22,11 @@ const Home: NextPage = () => {
             <Address address={connectedAddress} />
           </div>
 
-          <p className="text-center text-lg">
+          <div className="flex justify-center mt-4">
+            <AddAnvilChainButton className="animate-pulse-slow" />
+          </div>
+
+          <p className="text-center text-lg mt-8">
             Get started by editing{" "}
             <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
               packages/nextjs/app/page.tsx
