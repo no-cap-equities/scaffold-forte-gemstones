@@ -30,7 +30,7 @@
         {
             "condition": "true",
             "positiveEffects": [
-                "emit O2R3:transfer-ok",
+                "emit O2R3:transfer-ok"
             ],
             "negativeEffects": [
                 "emit O2R3:transfer-bad",
@@ -42,7 +42,7 @@
         {
             "condition": "true",
             "positiveEffects": [
-                "emit O2R4:ownerTransfer-ok",
+                "emit O2R4:ownerTransfer-ok"
             ],
             "negativeEffects": [
                 "emit O2R4:ownerTransfer-bad",
@@ -54,7 +54,7 @@
         {
             "condition": "true",
             "positiveEffects": [
-                "emit O2R5:transferFrom-ok",
+                "emit O2R5:transferFrom-ok"
             ],
             "negativeEffects": [
                 "emit O2R5:transferFrom-bad",
@@ -66,7 +66,7 @@
         {
             "condition": "true",
             "positiveEffects": [
-                "emit O2R6:safeTransferFrom-ok",
+                "emit O2R6:safeTransferFrom-ok"
             ],
             "negativeEffects": [
                 "emit O2R6:safeTransferFrom-bad",
@@ -78,7 +78,7 @@
         {
             "condition": "true",
             "positiveEffects": [
-                "emit O2R6:safeTransferFrom-ok",
+                "emit O2R6:safeTransferFrom-ok"
             ],
             "negativeEffects": [
                 "emit O2R6:safeTransferFrom-bad",
@@ -86,6 +86,6 @@
             ],
             "functionSignature": "safeTransferFrom(address from, address to, uint256 tokenId, bytes memory data)",
             "encodedValues": "address from, address to, uint256 tokenId, bytes memory data"
-        },
+        }
     ]
 }

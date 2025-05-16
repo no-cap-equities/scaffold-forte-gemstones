@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
+import "contracts/RulesEngineIntegrationERC721.sol";
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract GemNFT is ERC721, ERC721Enumerable, Ownable {
+contract GemNFT is RulesEngineClientCustom, ERC721, ERC721Enumerable, Ownable {
     uint256 private _nextId = 1;
     mapping(uint256 => address) private _owners;
     mapping(uint256 => string) private _uris;
@@ -47,7 +48,7 @@ contract GemNFT is ERC721, ERC721Enumerable, Ownable {
         uint128 value,
         string calldata doc,
         uint128 date
-    ) external onlyOwner {
+    ) external onlyOwner checkRulesBeforemint(string calldata uri, uint128 number, uint128 value, string calldata doc, uint128 date) {
         uint256 id = _nextId++;
         _safeMint(msg.sender, id);
         _owners[id] = msg.sender;
@@ -66,7 +67,7 @@ contract GemNFT is ERC721, ERC721Enumerable, Ownable {
         emit OwnerTransferred(id, from, to);
     }
 
-    function burn(uint256 id) external onlyOwner {
+    function burn(uint256 id) external onlyOwner checkRulesBeforeburn(uint256 id) {
         if (!_exists(id)) revert NotExists();
 
         _burned[id] = true;
@@ -203,5 +204,19 @@ contract GemNFT is ERC721, ERC721Enumerable, Ownable {
         returns (bool)
     {
         return super.supportsInterface(interfaceId);
+    }
+
+    // wrappers for FRE modifiers
+    function transfer(address to, uint256 id) external checkRulesBeforeTransfer(address to, uint256 id) checkRulesBeforetransfer(address to, uint256 id) {
+        super.transfer(to, id);
+    }
+    function transferOwnership(uint256 id, address to) external checkRulesBeforeTransferOwnership(uint256 id, address to) checkRulesBeforetransferOwnership(uint256 id, address to) {
+        super.transferOwnership(id, to);
+    }
+    function transferFrom(address from, address to, uint256 tokenId) external checkRulesBeforeTransferFrom(address from, address to, uint256 tokenId) checkRulesBeforetransferFrom(address from, address to, uint256 tokenId) {
+        super.transferFrom(from, to, tokenId);
+    }
+    function safeTransferFrom(address from, address to, uint256 tokenId) external checkRulesBeforeSafeTransferFrom(address from, address to, uint256 tokenId) checkRulesBeforesafeTransferFrom(address from, address to, uint256 tokenId) {
+        super.safeTransferFrom(from, to, tokenId);
     }
 }
