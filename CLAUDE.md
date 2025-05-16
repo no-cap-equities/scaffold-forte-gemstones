@@ -99,3 +99,32 @@ The main deployment script is `/packages/foundry/script/Deploy.s.sol`. Add new c
 - Use Foundry's test framework with forge-std
 - Run specific tests with `forge test --match-test testName`
 - Use `-vvv` flag for verbose output during debugging
+
+## Forge Commands Explanation
+
+### Forge Basics
+- `forge`: The main command-line tool for Foundry development
+- `anvil`: Local Ethereum development blockchain
+- `cast`: Ethereum CLI for interacting with smart contracts and networks
+
+### Detailed Forge/Cast Command Explanations
+- `forge test`: Runs smart contract tests
+  - `-vvv`: Provides verbose output for detailed test results
+  - `--match-test`: Runs only specific test functions
+  - `--debug`: Debugs a specific test
+
+- `forge compile`: Compiles Solidity smart contracts
+  - Generates bytecode and ABI for deployment
+  - Checks for compilation errors
+
+- `forge script`: Runs deployment or interaction scripts
+  - Used to deploy contracts to local or live networks
+  - Can simulate transactions before execution
+
+- `cast`: Useful for blockchain interactions
+  - `cast send`: Send transactions to contracts
+  - `cast call`: Read contract state without modifying blockchain
+  - `cast block`: Retrieve block information
+  - `cast tx`: Get transaction details
+
+Remember to always check network configuration, have sufficient test ETH in wallets, and review scripts carefully before execution.

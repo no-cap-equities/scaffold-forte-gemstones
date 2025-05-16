@@ -1,0 +1,33 @@
+{
+    "workbench.colorCustomizations": {
+        "activityBar.activeBackground": "#7ebd4e",
+        "activityBar.background": "#7ebd4e",
+        "activityBar.foreground": "#15202b",
+        "activityBar.inactiveForeground": "#15202b99",
+        "activityBarBadge.background": "#3d69a3",
+        "activityBarBadge.foreground": "#e7e7e7",
+        "commandCenter.border": "#15202b99",
+        "sash.hoverBorder": "#7ebd4e",
+        "statusBar.background": "#659d3b",
+        "statusBar.foreground": "#15202b",
+        "statusBarItem.hoverBackground": "#4d782d",
+        "statusBarItem.remoteBackground": "#659d3b",
+        "statusBarItem.remoteForeground": "#15202b",
+        "titleBar.activeBackground": "#659d3b",
+        "titleBar.activeForeground": "#15202b",
+        "titleBar.inactiveBackground": "#659d3b99",
+        "titleBar.inactiveForeground": "#15202b99",
+        "terminal.background": "#f1e5c5",
+        "terminal.foreground": "#332003",
+        "terminal.ansiWhite": "#307276",
+        "terminal.ansiBrightWhite": "#307276"
+    },
+    "peacock.remoteColor": "#659d3b",
+    "workbench.colorTheme": "Cursor Dark",
+    "git.ignoredRepositories": [
+        "packages/foundry/lib"
+    ],
+    "git.detectSubmodules": false,
+    "git.detectSubmodulesLimit": 0
+}
+

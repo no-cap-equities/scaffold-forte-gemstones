@@ -16,9 +16,10 @@ node_modules
 .DS_Store
 
 # IDE
-.vscode
 .idea
 
 # cli
 dist
 .cursor/mcp.json
+packages/foundry/.vscode/settings.json
+packages/nextjs/.vscode/settings.json
