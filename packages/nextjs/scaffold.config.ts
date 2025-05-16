@@ -18,6 +18,13 @@ const baseAnvil = defineChain({
   rpcUrls: chains.foundry.rpcUrls,
   id: chains.foundry.id,
   testnet: true,
+  network: "anvil-base-sepolia",
+  blockExplorers: {
+    default: {
+      name: "Scaffold-ETH Explorer",
+      url: "http://localhost:8545/blockexplorer",
+    },
+  },
 });
 
 const bahamutHorizon = defineChain({

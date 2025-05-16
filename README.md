@@ -10,6 +10,7 @@ layer bread logic model bomb disagree tag speak utility fringe decline regular
 
 Admin/Deployer:
 0xC305a5bA271Bb573b0a7907f3726A36Ab4AF25A8
+Private Key: 0xbb69217eefeb55763978a4d7ed56e5b5e9d5f606cf2c435fb3e23a9125392b8e
 
 User A:
 0x0BEB4b823B4Ec60129E5af569faaEC05737B80Fc
@@ -19,6 +20,10 @@ User B:
 
 User C:
 0x6946d68de37D230C0274Acdf4e39c8d3c4da920A
+
+Vault:
+0x200d676e08082fd68804A48411D910Ec8a6A1d95
+
 ```
 
 # First Time Setup
@@ -88,3 +93,90 @@ To use these tasks in VS Code:
 <li><a href="https://polkadot.com/">Polkadot</a></li>
 <li><a href="https://www.easya.io/">EasyA</a></li>
 </ul>
+
+## Deploying GemToken and GemNFT to Base Sepolia
+
+We've created a deployment script that will deploy both GemToken and GemNFT contracts to Base Sepolia and set the rules engine address to `0x4E448907B4B8d5949D4A6C67f34419dBb29690bD`.
+
+### Prerequisites
+
+1. You need a Foundry keystore with your private key to deploy contracts to Base Sepolia.
+
+#### Option 1: Import an existing private key (recommended)
+
+If you already have a private key (like the admin/deployer key in this README), you can import it:
+
+```bash
+# Run the import command
+yarn account:import
+
+# Enter a name for your keystore (e.g., "admin-deployer")
+# Enter your private key when prompted (e.g., 0xbb69217eefeb55763978a4d7ed56e5b5e9d5f606cf2c435fb3e23a9125392b8e)
+# Create a password to encrypt the keystore
+```
+
+This will create a keystore with address `0xC305a5bA271Bb573b0a7907f3726A36Ab4AF25A8` that you can use for deployment.
+
+#### Option 2: Generate a new keystore
+
+If you don't have a private key yet, generate one with:
+```bash
+yarn account:generate
+```
+
+2. Make sure your account has BASE (the native token for Base network) to pay for gas fees.
+
+3. Make sure the Base Sepolia RPC URL is available and correctly configured in `packages/foundry/foundry.toml`.
+
+   ```
+   # Important: baseSepolia needs to be spelled exactly as shown below (no dash)
+   baseSepolia = "https://sepolia.base.org"
+   ```
+
+### Deployment
+
+You can deploy the contracts in two ways:
+
+#### Using the Shell Script
+
+```bash
+# Make the script executable if it's not already
+chmod +x packages/foundry/scripts-sh/deploy-base-sepolia.sh
+
+# Run the deployment script
+./packages/foundry/scripts-sh/deploy-base-sepolia.sh
+```
+
+#### Using Yarn Command
+
+```bash
+# If you imported the admin key with name "admin-deployer"
+yarn deploy --file DeployBaseSepoliaGems.s.sol --network baseSepolia --keystore admin-deployer
+```
+
+#### Troubleshooting
+
+If your deployment goes to the local Anvil chain (Chain ID 31337) instead of Base Sepolia:
+- Make sure you're using the exact network name `baseSepolia` (not `base-sepolia` with a dash)
+- Check that your Base Sepolia RPC URL is working in `foundry.toml`
+- Verify you've selected the right keystore with funds on Base Sepolia
+
+### Verifying Rules Engine Integration
+
+After deployment, you can verify that the contracts have the correct rules engine address set with the following script:
+
+```bash
+# Make the script executable if it's not already
+chmod +x packages/foundry/scripts-sh/test-rules-engine-integration.sh
+
+# Run the verification script
+./packages/foundry/scripts-sh/test-rules-engine-integration.sh
+```
+
+This script will check that both GemToken and GemNFT have the rules engine address set to `0x4E448907B4B8d5949D4A6C67f34419dBb29690bD`.
+
+### Deployment Output
+
+After deployment, the contract addresses will be available in:
+- `packages/foundry/deployments/84532.json` (Base Sepolia chain ID)
+- The contract addresses will also be automatically added to your frontend under `packages/nextjs/contracts`
