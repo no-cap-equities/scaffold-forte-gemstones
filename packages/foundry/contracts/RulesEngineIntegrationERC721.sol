@@ -12,13 +12,13 @@ pragma solidity ^0.8.24;
  */
 abstract contract RulesEngineClientCustom is RulesEngineClient {
     modifier checkRulesBeforemint(string calldata uri, uint128 number, uint128 value, string calldata doc, uint128 date) {
-		bytes memory encoded = abi.encodeWithSelector(msg.sig,calldata uri, uint128 number, uint128 value, calldata doc, uint128 date);
+		bytes memory encoded = abi.encodeWithSelector(msg.sig, uri, number, value, doc, date);
 		_invokeRulesEngine(encoded);
 		_;
 	}
 
 	modifier checkRulesAftermint(string calldata uri, uint128 number, uint128 value, string calldata doc, uint128 date) {
-		bytes memory encoded = abi.encodeWithSelector(msg.sig,calldata uri, uint128 number, uint128 value, calldata doc, uint128 date);
+		bytes memory encoded = abi.encodeWithSelector(msg.sig, uri, number, value, doc, date);
 		_;
 		_invokeRulesEngine(encoded);
 	}
@@ -84,7 +84,6 @@ abstract contract RulesEngineClientCustom is RulesEngineClient {
 	}
 
 	// Modifier Here
-
 
 
 
