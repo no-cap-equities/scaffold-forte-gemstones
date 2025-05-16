@@ -1,3 +1,4 @@
+import { defineChain } from "viem";
 import * as chains from "viem/chains";
 
 export type ScaffoldConfig = {
@@ -11,9 +12,43 @@ export type ScaffoldConfig = {
 
 export const DEFAULT_ALCHEMY_API_KEY = "oKxs-03sij-U_N0iOlrSsZFr29-IqbuF";
 
+const baseAnvil = defineChain({
+  ...chains.baseSepolia,
+  name: "Anvil Base Sepolia",
+  rpcUrls: chains.foundry.rpcUrls,
+  id: chains.foundry.id,
+  testnet: true,
+});
+
+const bahamutHorizon = defineChain({
+  name: "Bahamut Horizon",
+  rpcUrls: {
+    default: {
+      http: ["https://rpc.ankr.com/bahamut_horizon"],
+    },
+    alternate: {
+      http: ["https://horizon-fastex-testnet.zeeve.net"],
+    },
+  },
+  id: 2552,
+  testnet: true,
+  network: "bahamut-horizon",
+  nativeCurrency: {
+    name: "Fasttoken",
+    symbol: "FTN",
+    decimals: 18,
+  },
+  blockExplorers: {
+    default: {
+      name: "Bahamut Horizon Explorer",
+      url: "https://horizon.ftnscan.com/",
+    },
+  },
+});
+
 const scaffoldConfig = {
   // The networks on which your DApp is live
-  targetNetworks: [chains.foundry],
+  targetNetworks: [baseAnvil, bahamutHorizon, chains.baseSepolia],
 
   // The interval at which your front-end polls the RPC servers for new data
   // it has no effect if you only target the local network (default is 4000)
