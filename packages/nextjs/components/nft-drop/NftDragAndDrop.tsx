@@ -32,7 +32,7 @@ const NftDragAndDrop: React.FC = () => {
   return (
     <>
       <style>{nftDropStyles}</style>
-      <div className="flex flex-col w-full h-screen overflow-hidden bg-gray-900 font-sans text-gray-200 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+      <div className="flex flex-col w-full flex-1 overflow-hidden bg-gray-900 font-sans text-gray-200 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
         <div className="px-4 py-3">
           <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 flex items-center">
             <ZapIcon className="h-6 w-6 mr-2 text-cyan-400" />
