@@ -32,9 +32,24 @@ Vault:
 yarn install
 cd packages/foundry && forge install
 cd ../..
-yarn chain
+yarn chain  # Or use `yarn fork` to fork Base Sepolia
 yarn deploy
 ```
+
+## Using Fork Mode (Recommended for Development)
+
+When running `yarn fork`, Anvil will fork Base Sepolia and include all deployed contracts. The deployment script automatically detects this and uses the existing contracts instead of deploying new ones:
+
+```bash
+yarn fork   # Starts Anvil with Base Sepolia fork
+yarn deploy # Will use existing contracts from the fork
+```
+
+This means:
+- **GEMToken** at `0x54389aB48730e453aA1B7e6D315337DC9A768222` 
+- **GemNFT** at `0x415B6B8EAE5D54ABE0eC11A7DD7e74d13a259445`
+
+Will be available in your local development environment without redeployment.
 
 # Forte Rules Engine
 
@@ -113,11 +128,20 @@ We've created deployment scripts that will deploy both GemToken and GemNFT contr
 
 ### Deployment Scripts
 
-We have three deployment scripts available:
+We have several deployment scripts available:
 
-1. **DeployBaseSepoliaGems.s.sol** - Deploys with hardcoded addresses, only deploys if contracts don't exist
-2. **DeployBaseSepoliaGemsWithCheck.s.sol** - Reads deployment info from deployment file
-3. **DeployBaseSepoliaGemsEnv.s.sol** - Reads existing contract addresses from environment variables
+1. **Deploy.s.sol** (Default) - Fork-aware deployment that:
+   - Detects if running on Anvil fork and uses existing addresses
+   - Only deploys new contracts when needed
+   - Handles both local and real deployments automatically
+
+2. **DeployBaseSepoliaGems.s.sol** - Deploys with hardcoded addresses, only deploys if contracts don't exist
+
+3. **DeployBaseSepoliaGemsWithCheck.s.sol** - Reads deployment info from deployment file
+
+4. **DeployBaseSepoliaGemsEnv.s.sol** - Reads existing contract addresses from environment variables
+
+5. **DeployWithForkCheck.s.sol** - Main fork-aware deployment logic used by Deploy.s.sol
 
 ### Current Deployment
 
@@ -126,6 +150,19 @@ The contracts are already deployed on Base Sepolia:
 - **GemNFT**: `0x415B6B8EAE5D54ABE0eC11A7DD7e74d13a259445`
 
 ### Deployment Commands
+
+#### Default Deployment (Fork-Aware)
+
+The default deployment script automatically detects if you're running on a fork:
+
+```bash
+# On local fork - will use existing Base Sepolia addresses
+yarn fork   # In one terminal
+yarn deploy # In another terminal - will detect and use forked contracts
+
+# On real network - will check for existing contracts
+yarn deploy --network baseSepolia
+```
 
 #### Deploy Only If Not Already Deployed
 
