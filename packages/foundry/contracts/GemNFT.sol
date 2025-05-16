@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
-import "contracts/RulesEngineIntegrationERC721.sol";
+import {RulesEngineClientCustom} from "contracts/RulesEngineIntegrationERC721.sol";
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
@@ -48,7 +48,7 @@ contract GemNFT is RulesEngineClientCustom, ERC721, ERC721Enumerable, Ownable {
         uint128 value,
         string calldata doc,
         uint128 date
-    ) external onlyOwner checkRulesBeforemint(string calldata uri, uint128 number, uint128 value, string calldata doc, uint128 date) {
+    ) external onlyOwner checkRulesBeforemint(uri, number, value, doc, date) {
         uint256 id = _nextId++;
         _safeMint(msg.sender, id);
         _owners[id] = msg.sender;
@@ -67,7 +67,7 @@ contract GemNFT is RulesEngineClientCustom, ERC721, ERC721Enumerable, Ownable {
         emit OwnerTransferred(id, from, to);
     }
 
-    function burn(uint256 id) external onlyOwner checkRulesBeforeburn(uint256 id) {
+    function burn(uint256 id) external onlyOwner checkRulesBeforeburn(id) {
         if (!_exists(id)) revert NotExists();
 
         _burned[id] = true;
@@ -206,17 +206,21 @@ contract GemNFT is RulesEngineClientCustom, ERC721, ERC721Enumerable, Ownable {
         return super.supportsInterface(interfaceId);
     }
 
-    // wrappers for FRE modifiers
-    function transfer(address to, uint256 id) external checkRulesBeforeTransfer(address to, uint256 id) checkRulesBeforetransfer(address to, uint256 id) {
-        super.transfer(to, id);
-    }
-    function transferOwnership(uint256 id, address to) external checkRulesBeforeTransferOwnership(uint256 id, address to) checkRulesBeforetransferOwnership(uint256 id, address to) {
-        super.transferOwnership(id, to);
-    }
-    function transferFrom(address from, address to, uint256 tokenId) external checkRulesBeforeTransferFrom(address from, address to, uint256 tokenId) checkRulesBeforetransferFrom(address from, address to, uint256 tokenId) {
+    // wrappers for FRE modifiers - ERC721 overrides
+    function transferFrom(address from, address to, uint256 tokenId) public virtual override(ERC721, IERC721) checkRulesBeforetransferFrom(from, to, tokenId) {
         super.transferFrom(from, to, tokenId);
     }
-    function safeTransferFrom(address from, address to, uint256 tokenId) external checkRulesBeforeSafeTransferFrom(address from, address to, uint256 tokenId) checkRulesBeforesafeTransferFrom(address from, address to, uint256 tokenId) {
+    
+    function safeTransferFrom(address from, address to, uint256 tokenId) public virtual override(ERC721, IERC721) checkRulesBeforetransferFrom(from, to, tokenId) {
         super.safeTransferFrom(from, to, tokenId);
+    }
+    
+    function safeTransferFrom(address from, address to, uint256 tokenId, bytes memory data) public virtual override(ERC721, IERC721) checkRulesBeforetransferFrom(from, to, tokenId) {
+        super.safeTransferFrom(from, to, tokenId, data);
+    }
+    
+    // Custom function for ownership transfer
+    function transferOwnership(address newOwner) public virtual override onlyOwner checkRulesBeforeTransferOwnership(0, newOwner) checkRulesBeforetransferOwnership(0, newOwner) {
+        super.transferOwnership(newOwner);
     }
 }
