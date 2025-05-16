@@ -32,16 +32,18 @@ const NftDragAndDrop: React.FC = () => {
   return (
     <>
       <style>{nftDropStyles}</style>
-      <div className="flex flex-col w-full h-screen bg-gray-900 p-4 font-sans text-gray-200 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
-        <h1 className="text-2xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 flex items-center">
-          <ZapIcon className="h-6 w-6 mr-2 text-cyan-400" />
-          NFT Transfer Demo
-        </h1>
+      <div className="flex flex-col w-full h-screen overflow-hidden bg-gray-900 font-sans text-gray-200 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+        <div className="px-4 py-3">
+          <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 flex items-center">
+            <ZapIcon className="h-6 w-6 mr-2 text-cyan-400" />
+            NFT Transfer Demo
+          </h1>
+        </div>
         
         {/* Main content area */}
-        <div className="flex flex-1 gap-4 mb-4">
+        <div className="flex flex-1 gap-4 px-4 overflow-hidden">
           {/* Left column */}
-          <div className="flex flex-col w-1/2 gap-4">
+          <div className="flex flex-col w-1/2 gap-4 overflow-auto">
             {/* Admin box */}
             <AddressBox 
               title="Admin" 
@@ -100,7 +102,7 @@ const NftDragAndDrop: React.FC = () => {
           </div>
           
           {/* Right column */}
-          <div className="flex flex-col w-1/2 gap-4">
+          <div className="flex flex-col w-1/2 gap-4 overflow-auto">
             {/* User boxes */}
             {USER_COLORS.map((user, index) => (
               <AddressBox 
@@ -134,12 +136,14 @@ const NftDragAndDrop: React.FC = () => {
           </div>
         </div>
         
-        {/* Transaction history panel */}
-        <TransactionHistory 
-          transactions={transactions}
-          historyExpanded={historyExpanded}
-          onToggleExpand={() => setHistoryExpanded(!historyExpanded)}
-        />
+        {/* Transaction history panel - with minimized height */}
+        <div className="px-4 pb-3">
+          <TransactionHistory 
+            transactions={transactions}
+            historyExpanded={historyExpanded}
+            onToggleExpand={() => setHistoryExpanded(!historyExpanded)}
+          />
+        </div>
         
         {/* Confirmation Modal */}
         <ConfirmationModal 

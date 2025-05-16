@@ -24,34 +24,40 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
       </div>
       
       {historyExpanded && (
-        <div className="p-3">
-          <div className="grid grid-cols-5 font-bold mb-2 text-gray-300 border-b border-gray-700 pb-2">
-            <div>From</div>
-            <div>To</div>
-            <div>Token ID</div>
-            <div>Status</div>
-            <div>Time</div>
-          </div>
-          
-          {transactions.map(tx => (
-            <div key={tx.id} className="grid grid-cols-5 py-2 border-t border-gray-700">
-              <div>{tx.from}</div>
-              <div>{tx.to}</div>
-              <div>{tx.tokenId}</div>
-              <div>
-                {tx.status === 'success' ? (
-                  <span className="flex items-center text-green-400">
-                    <CheckCircle className="h-4 w-4 mr-1" /> Success
-                  </span>
-                ) : (
-                  <span className="flex items-center text-pink-500">
-                    <AlertCircle className="h-4 w-4 mr-1" /> Failed
-                  </span>
-                )}
-              </div>
-              <div>{tx.timestamp}</div>
+        <div className="max-h-48 overflow-auto">
+          <div className="p-3">
+            <div className="grid grid-cols-5 font-bold mb-2 text-gray-300 border-b border-gray-700 pb-2 sticky top-0 bg-gray-800">
+              <div>From</div>
+              <div>To</div>
+              <div>Token ID</div>
+              <div>Status</div>
+              <div>Time</div>
             </div>
-          ))}
+            
+            {transactions.length > 0 ? (
+              transactions.map(tx => (
+                <div key={tx.id} className="grid grid-cols-5 py-2 border-t border-gray-700">
+                  <div>{tx.from}</div>
+                  <div>{tx.to}</div>
+                  <div>{tx.tokenId}</div>
+                  <div>
+                    {tx.status === 'success' ? (
+                      <span className="flex items-center text-green-400">
+                        <CheckCircle className="h-4 w-4 mr-1" /> Success
+                      </span>
+                    ) : (
+                      <span className="flex items-center text-pink-500">
+                        <AlertCircle className="h-4 w-4 mr-1" /> Failed
+                      </span>
+                    )}
+                  </div>
+                  <div>{tx.timestamp}</div>
+                </div>
+              ))
+            ) : (
+              <div className="py-2 text-center text-gray-400">No transactions yet</div>
+            )}
+          </div>
         </div>
       )}
     </div>
