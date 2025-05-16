@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
-import {RulesEngineClientCustom} from "contracts/RulesEngineIntegrationERC721.sol";
+import "./RulesEngineIntegrationERC721.sol";
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
@@ -211,16 +211,12 @@ contract GemNFT is RulesEngineClientCustom, ERC721, ERC721Enumerable, Ownable {
         super.transferFrom(from, to, tokenId);
     }
     
-    function safeTransferFrom(address from, address to, uint256 tokenId) public virtual override(ERC721, IERC721) checkRulesBeforetransferFrom(from, to, tokenId) {
-        super.safeTransferFrom(from, to, tokenId);
-    }
-    
     function safeTransferFrom(address from, address to, uint256 tokenId, bytes memory data) public virtual override(ERC721, IERC721) checkRulesBeforetransferFrom(from, to, tokenId) {
         super.safeTransferFrom(from, to, tokenId, data);
     }
     
     // Custom function for ownership transfer
-    function transferOwnership(address newOwner) public virtual override onlyOwner checkRulesBeforeTransferOwnership(0, newOwner) checkRulesBeforetransferOwnership(0, newOwner) {
+    function transferOwnership(address newOwner) public virtual override onlyOwner checkRulesBeforetransferOwnership(0, newOwner) checkRulesBeforetransferOwnership(0, newOwner) {
         super.transferOwnership(newOwner);
     }
 }

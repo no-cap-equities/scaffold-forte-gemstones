@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
-import {RulesEngineClientCustom} from "contracts/RulesEngineIntegrationERC20.sol";
+import "./RulesEngineIntegrationERC20.sol";
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -29,7 +29,7 @@ contract GEMToken is RulesEngineClientCustom, ERC20, Ownable {
         return super.transferFrom(from, to, value);
     }
     
-    function transferOwnership(address newOwner) public virtual override onlyOwner checkRulesBeforeTransferOwnership(newOwner) checkRulesBeforetransferOwnership(newOwner) {
+    function transferOwnership(address newOwner) public virtual override onlyOwner checkRulesBeforetransferOwnership(newOwner) checkRulesBeforetransferOwnership(newOwner) {
         super.transferOwnership(newOwner);
     }
 }

@@ -10,3 +10,6 @@
 [submodule "packages/foundry/lib/forte-rules-engine"]
 	path = packages/foundry/lib/forte-rules-engine
 	url = https://github.com/thrackle-io/forte-rules-engine
+[submodule "packages/foundry/lib/solidity-bytes-utils"]
+	path = packages/foundry/lib/solidity-bytes-utils
+	url = https://github.com/GNSPS/solidity-bytes-utils
