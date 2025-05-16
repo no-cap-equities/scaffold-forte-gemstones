@@ -2,6 +2,12 @@
 
 DEPLOY_SCRIPT ?= script/Deploy.s.sol
 
+# Load environment variables from .env file
+ifneq (,$(wildcard .env))
+    include .env
+    export
+endif
+
 # setup wallet for anvil
 setup-anvil-wallet:
 	shx rm ~/.foundry/keystores/scaffold-eth-default 2>/dev/null; 	shx rm -rf broadcast/Deploy.s.sol/31337
@@ -13,7 +19,7 @@ chain: setup-anvil-wallet
 
 # Start a fork
 fork: setup-anvil-wallet
-	anvil --fork-url ${FORK_URL} --chain-id 31337
+	anvil --fork-url $(FORK_URL) --chain-id 31337
 
 # Deploy the contracts
 deploy:
