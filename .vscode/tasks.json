@@ -3,7 +3,7 @@
     "tasks": [
         {
             "label": "Run Chain",
-            "command": "yarn chain",
+            "command": "yarn fork",
             "detail": "Runs a local Anvil chain",
             "type": "shell",
             "runOptions": {
