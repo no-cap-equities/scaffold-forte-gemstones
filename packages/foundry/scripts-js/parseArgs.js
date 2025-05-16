@@ -97,7 +97,11 @@ You can either:
 
 let selectedKeystore = process.env.LOCALHOST_KEYSTORE_ACCOUNT;
 if (network !== "localhost") {
-  if (keystoreArg) {
+  if (network === "baseSepolia") {
+    // Skip keystore for Base Sepolia - use private key instead
+    console.log("\n🔑 Using private key from .env for Base Sepolia deployment");
+    selectedKeystore = null;
+  } else if (keystoreArg) {
     // Use the keystore provided via command line argument
     if (!validateKeystore(keystoreArg)) {
       console.log(`\n❌ Error: Keystore '${keystoreArg}' not found!`);
@@ -151,7 +155,9 @@ The default account (scaffold-eth-default) can only be used for localhost deploy
 // Set environment variables for the make command
 process.env.DEPLOY_SCRIPT = `script/${fileName}`;
 process.env.RPC_URL = network;
-process.env.ETH_KEYSTORE_ACCOUNT = selectedKeystore;
+if (selectedKeystore !== null) {
+  process.env.ETH_KEYSTORE_ACCOUNT = selectedKeystore;
+}
 
 console.log(`\n📡 Network: ${network}`);
 console.log(`🔗 RPC_URL environment variable: ${process.env.RPC_URL}`);
