@@ -25,9 +25,13 @@
     "peacock.remoteColor": "#659d3b",
     "workbench.colorTheme": "Cursor Dark",
     "git.ignoredRepositories": [
-        "packages/foundry/lib"
+        "packages/foundry/lib/forge-std",
+        "packages/foundry/lib/openzeppelin-contracts"
     ],
     "git.detectSubmodules": false,
-    "git.detectSubmodulesLimit": 0
+    "git.detectSubmodulesLimit": 0,
+    "search.exclude": {
+        "packages/foundry/lib/*": true
+    }
 }
 
