@@ -7,6 +7,7 @@ import { ConfirmationModal } from './ConfirmationModal';
 import { useNftDragAndDrop } from './hooks/useNftDragAndDrop';
 import { SAMPLE_ADDRESSES, USER_COLORS } from './constants';
 import { nftDropStyles } from './styles';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 const NftDragAndDrop: React.FC = () => {
   const {
@@ -26,19 +27,38 @@ const NftDragAndDrop: React.FC = () => {
     handleDragLeave,
     handleDrop,
     handleConfirmTransfer,
-    getNftCardClass
+    getNftCardClass,
+    isConnected,
+    address,
+    isSending,
+    isConfirming
   } = useNftDragAndDrop();
 
   return (
     <>
       <style>{nftDropStyles}</style>
-      <div className="flex flex-col w-full h-screen overflow-hidden bg-gray-900 font-sans text-gray-200 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
-        <div className="px-4 py-3">
+      <div className="flex flex-col w-full flex-1 overflow-hidden bg-gray-900 font-sans text-gray-200 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+        <div className="px-4 py-3 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 flex items-center">
             <ZapIcon className="h-6 w-6 mr-2 text-cyan-400" />
-            NFT Transfer Demo
+            NFT Drop Send
           </h1>
+          <ConnectButton />
         </div>
+        
+        {/* Wallet connection status */}
+        {!isConnected && (
+          <div className="px-4 py-2 text-yellow-400 text-sm">
+            Connect your wallet to enable ETH transfers on NFT drop
+          </div>
+        )}
+        
+        {/* Transaction status */}
+        {(isSending || isConfirming) && (
+          <div className="px-4 py-2 text-cyan-400 text-sm">
+            {isSending ? 'Sending transaction...' : 'Confirming transaction...'}
+          </div>
+        )}
         
         {/* Main content area */}
         <div className="flex flex-1 gap-4 px-4 overflow-hidden">

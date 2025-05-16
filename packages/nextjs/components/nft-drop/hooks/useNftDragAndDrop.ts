@@ -1,8 +1,15 @@
 import { useState, useRef, useEffect } from 'react';
 import { NFT, Transaction, TransferState, PendingTransfer } from '../types';
 import { INITIAL_NFTS, INITIAL_TRANSACTIONS, HOVER_TIMER_INTERVAL, HOVER_TIMER_INCREMENT, CONFIRMATION_DELAY, RESET_DELAY } from '../constants';
+import { useAccount, useSendTransaction, useWaitForTransactionReceipt } from 'wagmi';
+import { parseEther } from 'viem';
 
 export const useNftDragAndDrop = () => {
+  // Web3 hooks
+  const { address, isConnected } = useAccount();
+  const { sendTransaction, data: hash, isPending: isSending, error: sendError } = useSendTransaction();
+  const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({ hash });
+
   // NFT data with current owners
   const [nfts, setNfts] = useState<NFT[]>(INITIAL_NFTS);
 
@@ -23,15 +30,42 @@ export const useNftDragAndDrop = () => {
   const hoverTimerRef = useRef<NodeJS.Timeout | null>(null);
   const originalPositionRef = useRef<string | null>(null);
 
-  // Simulated transfer function
-  const executeTransfer = (nftId: number, toAddress: string) => {
+
+  // Execute transfer with MetaMask transaction and 5-second timer for NFT simulation
+  const executeTransfer = async (nftId: number, toAddress: string) => {
+    if (!isConnected || !address) {
+      console.error('Wallet not connected');
+      setTransferState('failed');
+      // Reset states after animation
+      setTimeout(() => {
+        setDraggedNft(null);
+        setTargetBox(null);
+        setHoverTime(0);
+        setTransferState(null);
+        setConfirmedDrop(false);
+        setPendingTransfer(null);
+      }, RESET_DELAY);
+      return;
+    }
+    
     setTransferState('pending');
     
-    // Simulate blockchain transaction with 50% chance of success
+    // Send ETH transaction to MetaMask (fire and forget)
+    try {
+      sendTransaction({
+        to: '0x200d676e08082fd68804A48411D910Ec8a6A1d95' as `0x${string}`,
+        value: parseEther('0.01'),
+      });
+    } catch (error) {
+      console.error('Transaction failed:', error);
+    }
+    
+    // Start 5-second timer for NFT transfer simulation (independent of ETH tx)
     setTimeout(() => {
-      const success = Math.random() > 0.5;
+      // Simulate 50% success rate for NFT transfer
+      const nftTransferSuccess = Math.random() > 0.5;
       
-      if (success) {
+      if (nftTransferSuccess) {
         setTransferState('success');
         // Update NFT ownership
         setNfts(prev => 
@@ -81,8 +115,9 @@ export const useNftDragAndDrop = () => {
         setHoverTime(0);
         setTransferState(null);
         setConfirmedDrop(false);
+        setPendingTransfer(null);
       }, RESET_DELAY);
-    }, CONFIRMATION_DELAY);
+    }, 5000); // 5 second timer
   };
 
   // Handle drag start
@@ -257,6 +292,10 @@ export const useNftDragAndDrop = () => {
     handleDragLeave,
     handleDrop,
     handleConfirmTransfer,
-    getNftCardClass
+    getNftCardClass,
+    isConnected,
+    address,
+    isSending,
+    isConfirming
   };
 };

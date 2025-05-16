@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { RainbowKitProvider, darkTheme, lightTheme } from "@rainbow-me/rainbowkit";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
+import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import { Toaster } from "react-hot-toast";
 import { WagmiProvider } from "wagmi";
@@ -15,13 +16,15 @@ import { wagmiConfig } from "~~/services/web3/wagmiConfig";
 
 const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
   useInitializeNativeCurrencyPrice();
+  const pathname = usePathname();
+  const showFooter = !pathname?.startsWith("/nft-drop");
 
   return (
     <>
       <div className={`flex flex-col min-h-screen `}>
         <Header />
         <main className="relative flex flex-col flex-1">{children}</main>
-        <Footer />
+        {showFooter && <Footer />}
       </div>
       <Toaster />
     </>
