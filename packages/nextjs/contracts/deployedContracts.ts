@@ -152,7 +152,7 @@ const deployedContracts = {
       deploymentScript: "Deploy.s.sol",
     },
     GemNFT: {
-      address: "0x67774dec03f6f3f677f4f739bd8068d17901d4ac",
+      address: "0x6bcb3f78d4936c4fd8973d520ff3debad9ecc374",
       abi: [
         {
           type: "constructor",
@@ -1180,7 +1180,7 @@ const deployedContracts = {
         },
       ],
       inheritedFunctions: {},
-      deploymentFile: "run-1747410464.json",
+      deploymentFile: "run-1747410791.json",
       deploymentScript: "DeployBaseSepoliaGems.s.sol",
     },
   },
