@@ -1,36 +1,22 @@
 // SPDX-License-Identifier: MIT
-// Compatible with OpenZeppelin Contracts ^5.0.0
-pragma solidity ^0.8.27;
+pragma solidity ^0.8.20;
 
-import {ERC1363} from "@openzeppelin/contracts/token/ERC20/extensions/ERC1363.sol";
-import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import {ERC20Burnable} from "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
-import {ERC20Custodian} from "@openzeppelin/community-contracts/token/ERC20/extensions/ERC20Custodian.sol";
-import {ERC20Permit} from "@openzeppelin/contracts/token/ERC20/extensions/ERC20Permit.sol";
-import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-/// @custom:security-contact security@gemblock.xyz
-contract GemstoneToken is ERC20, ERC20Burnable, Ownable, ERC1363, ERC20Permit, ERC20Custodian {
-    constructor(address initialOwner)
-        ERC20("Gemstone Token", "GEM")
-        Ownable(initialOwner)
-        ERC20Permit("Gemstone Token")
-    {}
+contract GEMToken is ERC20, Ownable {
+    error ZeroAmount();
 
-    function mint(address to, uint256 amount) public onlyOwner {
+    constructor() ERC20("GEM Token", "GEMT") Ownable(msg.sender) {}
+
+    function mint(address to, uint256 amount) external onlyOwner {
+        if (amount == 0) revert ZeroAmount();
         _mint(to, amount);
     }
 
-    function _isCustodian(address user) internal view override returns (bool) {
-        return user == owner();
-    }
-
-    // The following functions are overrides required by Solidity.
-
-    function _update(address from, address to, uint256 value)
-        internal
-        override(ERC20, ERC20Custodian)
-    {
-        super._update(from, to, value);
+    // Burn tokens, callable by token holder
+    function burn(uint256 amount) external {
+        if (amount == 0) revert ZeroAmount();
+        _burn(msg.sender, amount);
     }
 }

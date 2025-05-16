@@ -1,39 +1,186 @@
 // SPDX-License-Identifier: MIT
-// Compatible with OpenZeppelin Contracts ^5.0.0
-pragma solidity ^0.8.27;
+pragma solidity ^0.8.20;
 
-import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import {ERC721Burnable} from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
-import {ERC721Enumerable} from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
-import {ERC721URIStorage} from "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-/// @custom:security-contact lol@gemtrust.xyz
-contract GemBlockVaultedGemstone is ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Burnable, Ownable {
-    uint256 private _nextTokenId;
+contract GemNFT is ERC721, ERC721Enumerable, Ownable {
+    uint256 private _nextId = 1;
+    mapping(uint256 => address) private _owners;
+    mapping(uint256 => string) private _uris;
+    mapping(uint256 => Appraisal[]) private _appraisals;
+    mapping(uint256 => bool) private _burned;
 
-    constructor(address initialOwner)
-        ERC721("GemBlock Vaulted Gemstone", "gemNFT")
-        Ownable(initialOwner)
-    {}
+    address public immutable ZERO_ADDRESS = address(0);
 
-    function _baseURI() internal pure override returns (string memory) {
-        return "https://static.gemtrust.xyz/nft/";
+    struct Appraisal {
+        uint128 number;
+        uint128 value;
+        string doc;
+        uint128 date;
     }
 
-    function safeMint(address to, string memory uri)
-        public
-        onlyOwner
-        returns (uint256)
-    {
-        uint256 tokenId = _nextTokenId++;
-        _safeMint(to, tokenId);
-        _setTokenURI(tokenId, uri);
-        return tokenId;
+    struct TokenData {
+        uint256 id;
+        string uri;
+        Appraisal[] appraisals;
     }
 
-    // The following functions are overrides required by Solidity.
+    event TokenAppraised(uint256 indexed id, uint128 value);
+    event TokenBurned(uint256 indexed id);
+    event URISet(uint256 indexed id, string uri);
+    event OwnerTransferred(uint256 indexed id, address indexed from, address indexed to);
 
+    error NotExists();
+    error InvalidValue();
+    error NoAppraisals();
+    error ZeroAddress();
+    error ZeroValue();
+
+    constructor() ERC721("GemNFT", "GEM") Ownable(msg.sender) {}
+
+    // Custom methods
+    function mint(
+        string calldata uri,
+        uint128 number,
+        uint128 value,
+        string calldata doc,
+        uint128 date
+    ) external onlyOwner {
+        uint256 id = _nextId++;
+        _safeMint(msg.sender, id);
+        _owners[id] = msg.sender;
+        _setTokenURI(id, uri);
+        _appraise(id, number, value, doc, date);
+    }
+
+    function ownerTransfer(uint256 id, address to) external onlyOwner {
+        if (!_exists(id)) revert NotExists();
+        if (to == ZERO_ADDRESS) revert ZeroAddress();
+
+        address from = ownerOf(id);
+        _update(to, id, address(0)); // Bypass approval checks
+        _owners[id] = to;
+
+        emit OwnerTransferred(id, from, to);
+    }
+
+    function burn(uint256 id) external onlyOwner {
+        if (!_exists(id)) revert NotExists();
+
+        _burned[id] = true;
+        _burn(id);
+
+        emit TokenBurned(id);
+    }
+
+    function tokenURI(
+        uint256 id
+    ) public view virtual override returns (string memory) {
+        if (!_exists(id)) revert NotExists();
+        return _uris[id];
+    }
+
+    function appraise(
+        uint256 id,
+        uint128 number,
+        uint128 value,
+        string calldata doc,
+        uint128 date
+    ) external onlyOwner {
+        _appraise(id, number, value, doc, date);
+    }
+
+    function appraisals(uint256 id) public view returns (Appraisal[] memory) {
+        if (!_exists(id)) revert NotExists();
+
+        return _appraisals[id];
+    }
+    
+    function lastAppraisal(
+        uint256 id
+    ) public view returns (uint128, uint128, string memory, uint128) {
+        if (!_exists(id)) revert NotExists();
+        uint256 len = _appraisals[id].length;
+        if (len == 0) revert NoAppraisals();
+
+        Appraisal memory last = _appraisals[id][len - 1];
+        return (last.number, last.value, last.doc, last.date);
+    }
+
+    function listAll() public view returns (TokenData[] memory) {
+        uint256 total = 0;
+        uint256 maxId = _nextId - 1;
+
+        for (uint256 i = 1; i <= maxId; i++) {
+            if (_exists(i)) total++;
+        }
+
+        if (total == 0) revert ZeroValue();
+
+        TokenData[] memory tokens = new TokenData[](total);
+        uint256 idx = 0;
+
+        for (uint256 i = 1; i <= maxId; i++) {
+            if (_exists(i)) {
+                tokens[idx] = TokenData({
+                    id: i,
+                    uri: tokenURI(i),
+                    appraisals: _appraisals[i]
+                });
+                idx++;
+            }
+        }
+
+        return tokens;
+    }
+
+    function listByOwner(
+        address owner
+    ) public view returns (TokenData[] memory) {
+        uint256 balance = balanceOf(owner);
+        if (balance == 0) revert ZeroValue();
+
+        TokenData[] memory tokens = new TokenData[](balance);
+        for (uint256 i = 0; i < balance; i++) {
+            uint256 tokenId = tokenOfOwnerByIndex(owner, i);
+            tokens[i] = TokenData({
+                id: tokenId,
+                uri: tokenURI(tokenId),
+                appraisals: _appraisals[tokenId]
+            });
+        }
+
+        return tokens;
+    }
+
+    // Private helper methods
+    function _exists(uint256 id) internal view returns (bool) {
+        return _owners[id] != ZERO_ADDRESS && !_burned[id];
+    }
+
+    function _setTokenURI(uint256 id, string calldata uri) internal {
+        _uris[id] = uri;
+        emit URISet(id, uri);
+    }
+
+    function _appraise(
+        uint256 id,
+        uint128 number,
+        uint128 value,
+        string calldata doc,
+        uint128 date
+    ) internal {
+        if (value == 0) revert InvalidValue();
+
+        _appraisals[id].push(
+            Appraisal({number: number, value: value, doc: doc, date: date})
+        );
+        emit TokenAppraised(id, value);
+    }
+
+    // ERC721 and ERC721Enumerable required overrides
     function _update(address to, uint256 tokenId, address auth)
         internal
         override(ERC721, ERC721Enumerable)
@@ -49,19 +196,10 @@ contract GemBlockVaultedGemstone is ERC721, ERC721Enumerable, ERC721URIStorage, 
         super._increaseBalance(account, value);
     }
 
-    function tokenURI(uint256 tokenId)
-        public
-        view
-        override(ERC721, ERC721URIStorage)
-        returns (string memory)
-    {
-        return super.tokenURI(tokenId);
-    }
-
     function supportsInterface(bytes4 interfaceId)
         public
         view
-        override(ERC721, ERC721Enumerable, ERC721URIStorage)
+        override(ERC721, ERC721Enumerable)
         returns (bool)
     {
         return super.supportsInterface(interfaceId);
