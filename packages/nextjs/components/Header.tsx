@@ -6,7 +6,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { hardhat } from "viem/chains";
 import { Bars3Icon, BugAntIcon, GiftIcon } from "@heroicons/react/24/outline";
-import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { FaucetButton } from "~~/components/scaffold-eth";
 import { useOutsideClick, useTargetNetwork } from "~~/hooks/scaffold-eth";
 
 type HeaderMenuLink = {
@@ -92,16 +93,30 @@ export const Header = () => {
             <Image alt="SE2 logo" className="cursor-pointer" fill src="/logo.svg" />
           </div>
           <div className="flex flex-col">
-            <span className="font-bold leading-tight">Scaffold-ETH</span>
-            <span className="text-xs">Ethereum dev stack</span>
+            <span className="font-bold leading-tight">Fortayyy</span>
+            <span className="text-xs">Zero Touch Compliance</span>
+            <span className="text-xs">No Cap</span>
           </div>
         </Link>
         <ul className="hidden lg:flex lg:flex-nowrap menu menu-horizontal px-1 gap-2">
           <HeaderMenuLinks />
         </ul>
       </div>
-      <div className="navbar-end grow mr-4">
-        <RainbowKitCustomConnectButton />
+      <div className="navbar-end grow mr-4 flex items-center gap-2">
+        <ConnectButton 
+          showBalance={{
+            smallScreen: false,
+            largeScreen: true,
+          }}
+          chainStatus={{
+            smallScreen: "icon",
+            largeScreen: "full"
+          }}
+          accountStatus={{
+            smallScreen: "avatar",
+            largeScreen: "full"
+          }}
+        />
         {isLocalNetwork && <FaucetButton />}
       </div>
     </div>

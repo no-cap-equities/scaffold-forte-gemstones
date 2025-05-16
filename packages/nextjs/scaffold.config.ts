@@ -21,6 +21,7 @@ const baseAnvil = defineChain({
 });
 
 const bahamutHorizon = defineChain({
+  ...chains.bahamut,
   name: "Bahamut Horizon",
   rpcUrls: {
     default: {
@@ -32,7 +33,6 @@ const bahamutHorizon = defineChain({
   },
   id: 2552,
   testnet: true,
-  network: "bahamut-horizon",
   nativeCurrency: {
     name: "Fasttoken",
     symbol: "FTN",

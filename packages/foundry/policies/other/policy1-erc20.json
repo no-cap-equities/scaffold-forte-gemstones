@@ -1,0 +1,67 @@
+{
+    "Policy": "Other: Test Policy ERC20",
+    "ForeignCalls": [],
+    "Trackers": [],
+    "RulesJSON": [
+        {
+            "condition": "true",
+            "positiveEffects": [
+                "emit O1R1:mint-PositiveEffect"
+            ],
+            "negativeEffects": [
+                "emit O1R1:mint-NegativeEffect",
+                "revert(\"Mint Blocked\")"
+            ],
+            "functionSignature": "mint(address to, uint256 amount)",
+            "encodedValues": "address to, uint256 amount"
+        },
+        {
+            "condition": "true",
+            "positiveEffects": [
+                "emit O1R2:burn-PositiveEffect",
+                "revert(\"Burn Blocked\")"
+            ],
+            "negativeEffects": [
+                "emit O1R2:burn-NegativeEffect"
+            ],
+            "functionSignature": "burn(uint256 amount)",
+            "encodedValues": "uint256 amount"
+        },
+        {
+            "condition": "true",
+            "positiveEffects": [
+                "emit O1R3:transferOwnership-ok",
+            ],
+            "negativeEffects": [
+                "emit O1R3:transferOwnership-bad",
+                "revert(\"Transfer Ownership Blocked\")"
+            ],
+            "functionSignature": "transferOwnership(address newOwner)",
+            "encodedValues": "address newOwner"
+        },
+        {
+            "condition": "true",
+            "positiveEffects": [
+                "emit O1R4:transfer-ok",
+            ],
+            "negativeEffects": [
+                "emit O1R4:transfer-bad",
+                "revert(\"Transfer Blocked\")"
+            ],
+            "functionSignature": "transfer(address to, uint256 value)",
+            "encodedValues": "address to, uint256 value"
+        },
+        {
+            "condition": "true",
+            "positiveEffects": [
+                "emit O1R5:transferFrom-ok",
+            ],
+            "negativeEffects": [
+                "emit O1R5:transferFrom-bad",
+                "revert(\"TransferFrom Blocked\")"
+            ],
+            "functionSignature": "transferFrom(address from, address to, uint256 value)",
+            "encodedValues": "address from, address to, uint256 value"
+        }
+    ]
+}

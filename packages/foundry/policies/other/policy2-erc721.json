@@ -1,0 +1,91 @@
+{
+    "Policy": "Other: Test Policy ERC721",
+    "ForeignCalls": [],
+    "Trackers": [],
+    "RulesJSON": [
+        {
+            "condition": "true",
+            "positiveEffects": [
+                "emit O2R1:mint-ok"
+            ],
+            "negativeEffects": [
+                "emit O2R1:mint-bad",
+                "revert(\"Mint Blocked\")"
+            ],
+            "functionSignature": "mint(string calldata uri, uint128 number, uint128 value, string calldata doc, uint128 date)",
+            "encodedValues": "string calldata uri, uint128 number, uint128 value, string calldata doc, uint128 date"
+        },
+        {
+            "condition": "true",
+            "positiveEffects": [
+                "emit O2R2:burn-ok",
+                "revert(\"Burn Blocked\")"
+            ],
+            "negativeEffects": [
+                "emit O2R2:burn-bad"
+            ],
+            "functionSignature": "burn(uint256 id)",
+            "encodedValues": "uint256 id"
+        },
+        {
+            "condition": "true",
+            "positiveEffects": [
+                "emit O2R3:transfer-ok",
+            ],
+            "negativeEffects": [
+                "emit O2R3:transfer-bad",
+                "revert(\"Transfer Blocked\")"
+            ],
+            "functionSignature": "transfer(address to, uint256 id)",
+            "encodedValues": "address to, uint256 id"
+        },
+        {
+            "condition": "true",
+            "positiveEffects": [
+                "emit O2R4:ownerTransfer-ok",
+            ],
+            "negativeEffects": [
+                "emit O2R4:ownerTransfer-bad",
+                "revert(\"Owner Transfer Blocked\")"
+            ],
+            "functionSignature": "transferOwnership(uint256 id, address to)",
+            "encodedValues": "uint256 id, address to"
+        },
+        {
+            "condition": "true",
+            "positiveEffects": [
+                "emit O2R5:transferFrom-ok",
+            ],
+            "negativeEffects": [
+                "emit O2R5:transferFrom-bad",
+                "revert(\"TransferFrom Blocked\")"
+            ],
+            "functionSignature": "transferFrom(address from, address to, uint256 tokenId)",
+            "encodedValues": "address from, address to, uint256 tokenId"
+        },
+        {
+            "condition": "true",
+            "positiveEffects": [
+                "emit O2R6:safeTransferFrom-ok",
+            ],
+            "negativeEffects": [
+                "emit O2R6:safeTransferFrom-bad",
+                "revert(\"Safe TransferFrom Blocked\")"
+            ],
+            "functionSignature": "safeTransferFrom(address from, address to, uint256 tokenId)",
+            "encodedValues": "address from, address to, uint256 tokenId"
+        },
+        {
+            "condition": "true",
+            "positiveEffects": [
+                "emit O2R6:safeTransferFrom-ok",
+            ],
+            "negativeEffects": [
+                "emit O2R6:safeTransferFrom-bad",
+                "revert(\"Safe TransferFrom Blocked\")"
+            ],
+            "functionSignature": "safeTransferFrom(address from, address to, uint256 tokenId, bytes memory data)",
+            "encodedValues": "address from, address to, uint256 tokenId, bytes memory data"
+        },
+    ]
+}
