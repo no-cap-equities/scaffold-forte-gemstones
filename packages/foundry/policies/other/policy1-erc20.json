@@ -30,7 +30,7 @@
         {
             "condition": "true",
             "positiveEffects": [
-                "emit O1R3:transferOwnership-ok",
+                "emit O1R3:transferOwnership-ok"
             ],
             "negativeEffects": [
                 "emit O1R3:transferOwnership-bad",
@@ -42,7 +42,7 @@
         {
             "condition": "true",
             "positiveEffects": [
-                "emit O1R4:transfer-ok",
+                "emit O1R4:transfer-ok"
             ],
             "negativeEffects": [
                 "emit O1R4:transfer-bad",
@@ -54,7 +54,7 @@
         {
             "condition": "true",
             "positiveEffects": [
-                "emit O1R5:transferFrom-ok",
+                "emit O1R5:transferFrom-ok"
             ],
             "negativeEffects": [
                 "emit O1R5:transferFrom-bad",
