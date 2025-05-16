@@ -1,0 +1,154 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run Chain",
+            "command": "yarn chain",
+            "detail": "Runs a local Anvil chain",
+            "type": "shell",
+            "runOptions": {
+                "instanceLimit": 1
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "close": false,
+                "group": "build-main",
+            },
+            "icon": {
+                "id": "link",
+                "color": "terminal.ansiCyan"
+            }
+        },
+        {
+            "label": "Deploy Contracts",
+            "icon": {
+                "id": "symbol-reference",
+                "color": "terminal.ansiYellow"
+            },
+            "type": "shell",
+            "command": "yarn deploy",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "close": false,
+                "group": "build-main",
+                "showReuseMessage": false
+            },
+        },
+        {
+            "label": "Frontend UI",
+            "command": "yarn start",
+            "runOptions": {
+                "instanceLimit": 1
+            },
+            "type": "shell",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "group": "build-main",
+                "close": false,
+            },
+            "icon": {
+                "id": "screen-full",
+                "color": "terminal.ansiCyan"
+            }
+        },
+        {
+            "label": "Delay Start",
+            "hide": true,
+            "type": "shell",
+            "detail": "Sleep for 10s",
+            "icon": {
+                "id": "clock",
+                "color": "terminal.ansiYellow"
+            },
+            "command": "for i in $(seq ${SLEEP_SECONDS:-10} -1 1); do echo -ne \"\\r Waiting for Anvil chain to start... $i \"; sleep 1; done; echo -e \"\\nDone waiting!\"",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "group": "build-main",
+                "showReuseMessage": false
+            }
+        },
+        {
+            "label": "Frontend (Re)Deploy",
+            "detail": "Deploy contracts and start frontend",
+            "type": "shell",
+            "command": "",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Deploy Contracts",
+                "Frontend UI",
+            ],
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "silent",
+                "panel": "shared",
+                "close": false,
+                "group": "build-main",
+            },
+            "icon": {
+                "id": "refresh",
+                "color": "terminal.ansiGreen",
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true,
+            }
+        },
+        {
+            "label": "Delayed Deploy & Start",
+            "icon": {
+                "id": "stop",
+                "color": "terminal.ansiYellow"
+            },
+            "hide": true,
+            "type": "shell",
+            "command": "",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Delay Start",
+                "Frontend (Re)Deploy"
+            ],
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "silent",
+                "panel": "shared",
+                "close": false,
+                "group": "build-main",
+            }
+        },
+        {
+            "label": "Main Build Workflow 🏗️",
+            "detail": "Main build task workflow: Run local Anvil chain -> Deploy contracts -> Start frontend",
+            "type": "shell",
+            "icon": {
+                "id": "debug-continue",
+                "color": "terminal.ansiYellow"
+            },
+            // "runOptions": {"instanceLimit": 1},
+            "command": "",
+            "dependsOn": [
+                "Delayed Deploy & Start",
+                "Run Chain",
+            ],
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "close": false,
+                "group": "build-main",
+                "showReuseMessage": false
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}
