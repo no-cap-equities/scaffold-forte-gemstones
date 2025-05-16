@@ -1,6 +1,13 @@
-```markdown
+
 # Fortyyyyy — Zero-Touch Compliance  
 *“🧢 No Cap, On-Chain.”*
+
+---
+
+**Watch the Demo**
+[![Watch the demo on YouTube](https://img.youtube.com/vi/mfs0m0gWBho/hqdefault.jpg)](https://www.youtube.com/watch?v=mfs0m0gWBho)
+
+
 
 ---
 
@@ -190,5 +197,3 @@ Deployment artifacts land here:
 
 *Zero Touch Compliance. No Cap! 🧢* 
 
-```
-```
